@@ -8,16 +8,18 @@ import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
+import com.crawler.entity.Player;
 import com.crawler.util.Position;
+import com.crawler.util.Settings;
 
 public class CrawlerGUI {
 
-	private JFrame frmBattleship;
-	private ScreenPanel panelScreen;
+	private JFrame frmCrawler;
 	private MapPanel panelMap;
+	private MinimapPanel panelMinimap;
 
 	private Integer[][] map = new Integer[100][100];
-	private Position currentPosition = new Position(10, 10);
+	private Player player = new Player(new Position(10, 10));
 
 	/**
 	 * Launch application.
@@ -27,7 +29,7 @@ public class CrawlerGUI {
 			public void run() {
 				try {
 					CrawlerGUI window = new CrawlerGUI();
-					window.frmBattleship.setVisible(true);
+					window.frmCrawler.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,9 +48,9 @@ public class CrawlerGUI {
 		test.schedule(new TimerTask() {
 			@Override
 			public void run() {
-				currentPosition.setLocation(currentPosition.getX() + 1, currentPosition.getY() + 1);
-				panelScreen.repaint();
+				player.setLocation(player.getLocation().getX() + 1, player.getLocation().getY() + 1);
 				panelMap.repaint();
+				panelMinimap.repaint();
 			}
 		}, 1000, 1000);
 	}
@@ -57,23 +59,19 @@ public class CrawlerGUI {
 	 * Initialise the contents of the frame.
 	 */
 	private void initialise() {
-		frmBattleship = new JFrame();
-		frmBattleship.setResizable(false);
-		frmBattleship.setTitle("Battleship");
-		frmBattleship.setBounds(50, 50, 1166, 989);
-		frmBattleship.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmBattleship.getContentPane().setLayout(null);
-		frmBattleship.getContentPane().setBackground(Color.BLACK);
+		frmCrawler = new JFrame();
+		frmCrawler.setResizable(false);
+		frmCrawler.setTitle("Battleship");
+		frmCrawler.setBounds(50, 50, Settings.getInstance().getScreenWidth(), Settings.getInstance().getScreenHeight());
+		frmCrawler.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmCrawler.getContentPane().setLayout(null);
+		frmCrawler.getContentPane().setBackground(Color.BLACK);
 
-		panelScreen = new ScreenPanel(map, currentPosition);
-		panelScreen.setBounds(0, 0, 960, 960);
-		panelScreen.setLayout(null);
-		frmBattleship.getContentPane().add(panelScreen);
+		panelMap = new MapPanel(map, player.getLocation());
+		frmCrawler.getContentPane().add(panelMap);
 
-		panelMap = new MapPanel(map, currentPosition);
-		panelMap.setBounds(960, 0, 200, 200);
-		panelMap.setLayout(null);
-		frmBattleship.getContentPane().add(panelMap);
+		panelMinimap = new MinimapPanel(map, player.getLocation());
+		frmCrawler.getContentPane().add(panelMinimap);
 	}
 
 	/**
@@ -83,7 +81,7 @@ public class CrawlerGUI {
 		Random rnd = new Random();
 		for (int i = 0; i < 100; i++) {
 			for (int j = 0; j < 100; j++) {
-				map[i][j] = rnd.nextInt(3);
+				map[i][j] = rnd.nextInt(9);
 			}
 		}
 	}
