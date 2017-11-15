@@ -18,19 +18,11 @@ public class Settings {
 		return instance;
 	}
 
-	public int getScreenWidth() {
-		return getMapWidth() + 206;
-	}
-
-	public int getScreenHeight() {
-		return getMapHeight() + 29;
-	}
-
 	public int getMapWidth() {
 		return mapWidth;
 	}
 
-	public void setMapWidth(int mapWidth) {
+	private void setMapWidth(int mapWidth) {
 		this.mapWidth = mapWidth;
 	}
 
@@ -38,8 +30,20 @@ public class Settings {
 		return mapHeight;
 	}
 
-	public void setMapHeight(int mapHeight) {
+	private void setMapHeight(int mapHeight) {
 		this.mapHeight = mapHeight;
+	}
+
+	public int getScreenWidth() {
+		return getMapWidth() + 208;
+	}
+
+	public int getScreenHeight() {
+		return getMapHeight() + 29;
+	}
+
+	public int getMapSize() {
+		return getMapWidth() / GlobalStatics.GRID_SIZE;
 	}
 
 }
