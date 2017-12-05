@@ -46,7 +46,7 @@ public class Room extends Area {
 		for (int j = getX(); j < getX() + getWidth(); j++) {
 			for (int k = getY(); k < getY() + getHeight(); k++) {
 				int num = rnd.nextInt(8) + 1;
-				map[j][k] = num;
+				map[k][j] = num;
 			}
 		}
 	}

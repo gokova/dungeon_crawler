@@ -49,7 +49,7 @@ public class MapPanel extends JPanel {
 
 		for (int i = x; i < x + mapSize; i++) {
 			for (int j = y; j < y + mapSize; j++) {
-				Integer tempVal = map[i][j];
+				Integer tempVal = map[j][i];
 				if (tempVal > 0 && tempVal <= 5) {
 					graph.setPaint(Color.RED);
 				} else if (tempVal > 5 && tempVal <= 7) {

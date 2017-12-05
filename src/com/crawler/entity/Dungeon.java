@@ -57,7 +57,9 @@ public class Dungeon extends Area {
 		}
 
 		for (int i = 0; i < getSubAreaList().size() - 1; i++) {
-			// TODO connect children
+			Position firstCenter = getSubAreaList().get(i).getConnectionPoint();
+			Position secondCenter = getSubAreaList().get(i + 1).getConnectionPoint();
+			connect(firstCenter, secondCenter);
 		}
 	}
 
@@ -66,6 +68,11 @@ public class Dungeon extends Area {
 		for (Area area : getSubAreaList()) {
 			area.fillMap();
 		}
+	}
+
+	@Override
+	public Position getConnectionPoint() {
+		return getSubAreaList().get(0).getConnectionPoint();
 	}
 
 	private Area createNewArea(int x, int y, int width, int height) {
@@ -80,9 +87,44 @@ public class Dungeon extends Area {
 		return result;
 	}
 
-	@Override
-	public Position getConnectionPoint() {
-		return getSubAreaList().get(0).getConnectionPoint();
+	public void connect(Position firstCenter, Position secondCenter) {
+		int xAxisDistance = Math.abs(secondCenter.getX() - firstCenter.getX());
+		int yAxisDistance = Math.abs(secondCenter.getY() - firstCenter.getY());
+		if (xAxisDistance <= 2) {
+			firstCenter.setLocation(secondCenter.getX(), firstCenter.getY());
+		}
+		if (yAxisDistance <= 2) {
+			firstCenter.setLocation(firstCenter.getX(), secondCenter.getY());
+		}
+
+		int[][] map = CurrentLevel.getInstance().getMap();
+		boolean isHorizontal = xAxisDistance >= yAxisDistance;
+		int xAxisDirection = (int) Math.signum(secondCenter.getX() - firstCenter.getX());
+		int yAxisDirection = (int) Math.signum(secondCenter.getY() - firstCenter.getY());
+		int i = 0;
+		int j = 0;
+
+		if (isHorizontal) {
+			for (i = 0; (firstCenter.getX() + i) != secondCenter.getX(); i += (1 * xAxisDirection)) {
+				map[firstCenter.getY() + j][firstCenter.getX() + i] = 9;
+				if (Math.abs(i) == (Math.abs(firstCenter.getX() - secondCenter.getX()) / 2)) {
+					for (int k = 0; (firstCenter.getY() + k) != secondCenter.getY(); k += (1 * yAxisDirection)) {
+						j = k;
+						map[firstCenter.getY() + j][firstCenter.getX() + i] = 9;
+					}
+				}
+			}
+		} else {
+			for (i = 0; (firstCenter.getY() + i) != secondCenter.getY(); i += (1 * yAxisDirection)) {
+				map[firstCenter.getY() + i][firstCenter.getX() + j] = 9;
+				if (Math.abs(i) == (Math.abs(firstCenter.getY() - secondCenter.getY()) / 2)) {
+					for (int k = 0; (firstCenter.getX() + k) != secondCenter.getX(); k += (1 * xAxisDirection)) {
+						j = k;
+						map[firstCenter.getY() + i][firstCenter.getX() + j] = 9;
+					}
+				}
+			}
+		}
 	}
 
 }

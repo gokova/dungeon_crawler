@@ -36,7 +36,7 @@ public class MinimapPanel extends JPanel {
 
 		for (int i = 0; i < MINIMAP_WIDTH; i++) {
 			for (int j = 0; j < MINIMAP_HEIGHT; j++) {
-				Integer tempVal = map[i / 2][j / 2];
+				Integer tempVal = map[j / 2][i / 2];
 				if (playerPosition.getX() == i / 2 && playerPosition.getY() == j / 2) {
 					graph.setPaint(Color.WHITE);
 				} else if (tempVal > 0 && tempVal <= 5) {
