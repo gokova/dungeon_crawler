@@ -37,7 +37,7 @@ public class CrawlerGUI {
 	 * Create application.
 	 */
 	public CrawlerGUI() {
-		CurrentLevel.generateNewLevel();
+		CurrentLevel.getInstance().generateNewLevel();
 		initialise();
 
 		Timer test = new Timer();

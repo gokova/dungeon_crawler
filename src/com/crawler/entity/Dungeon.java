@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.crawler.util.GlobalStatics;
+import com.crawler.util.Position;
 
 public class Dungeon extends Area {
 
@@ -77,6 +78,11 @@ public class Dungeon extends Area {
 		}
 
 		return result;
+	}
+
+	@Override
+	public Position getConnectionPoint() {
+		return getSubAreaList().get(0).getConnectionPoint();
 	}
 
 }

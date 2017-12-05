@@ -18,13 +18,11 @@ public class CurrentLevel {
 	public static CurrentLevel getInstance() {
 		if (instance == null) {
 			instance = new CurrentLevel();
-			instance.initialise();
 		}
 		return instance;
 	}
 
-	public static CurrentLevel generateNewLevel() {
-		instance = new CurrentLevel();
+	public CurrentLevel generateNewLevel() {
 		instance.initialise();
 		return instance;
 	}

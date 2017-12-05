@@ -1,5 +1,7 @@
 package com.crawler.entity;
 
+import com.crawler.util.Position;
+
 public abstract class Area {
 
 	private int x;
@@ -61,5 +63,7 @@ public abstract class Area {
 	public abstract void generateDungeon();
 
 	public abstract void fillMap();
+
+	public abstract Position getConnectionPoint();
 
 }

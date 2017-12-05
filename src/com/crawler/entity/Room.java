@@ -2,7 +2,11 @@ package com.crawler.entity;
 
 import java.util.Random;
 
+import com.crawler.util.Position;
+
 public class Room extends Area {
+
+	private final int PADDING = 2;
 
 	public Room() {
 		super(0, 0, 0, 0);
@@ -16,19 +20,22 @@ public class Room extends Area {
 	public void generateDungeon() {
 		Random rnd = new Random();
 		int x, y, width, height;
+		int tempArea = 0;
+		double tempRatio = 0;
 
 		do {
-			x = rnd.nextInt(getWidth() / 2);
-			y = rnd.nextInt(getHeight() / 2);
+			x = rnd.nextInt(getWidth() / 3);
+			y = rnd.nextInt(getHeight() / 3);
 			width = rnd.nextInt(getWidth() - x);
 			height = rnd.nextInt(getHeight() - y);
-		} while (width * height < 250 || ((double) width / (double) height) < (double) 0.3
-				|| ((double) width / (double) height) > (double) 1.7);
+			tempArea = (width - PADDING) * (height - PADDING);
+			tempRatio = ((double) width - PADDING) / ((double) height - PADDING);
+		} while (tempArea < 250 || tempRatio < (double) 0.3 || tempRatio > (double) 1.7);
 
-		this.setX(getX() + x);
-		this.setY(getY() + y);
-		this.setWidth(width);
-		this.setHeight(height);
+		this.setX(getX() + x + PADDING);
+		this.setY(getY() + y + PADDING);
+		this.setWidth(width - PADDING);
+		this.setHeight(height - PADDING);
 	}
 
 	@Override
@@ -42,6 +49,11 @@ public class Room extends Area {
 				map[j][k] = num;
 			}
 		}
+	}
+
+	@Override
+	public Position getConnectionPoint() {
+		return new Position(getX() + getWidth() / 2, getY() + getHeight() / 2);
 	}
 
 }
