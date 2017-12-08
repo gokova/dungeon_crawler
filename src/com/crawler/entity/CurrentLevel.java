@@ -7,7 +7,7 @@ import com.crawler.util.Position;
 public class CurrentLevel {
 
 	private static CurrentLevel instance;
-	private int[][] map;
+	private Map map;
 	private Area newMap;
 	private Player player;
 	private int dungeonSize;
@@ -27,7 +27,7 @@ public class CurrentLevel {
 		return instance;
 	}
 
-	public int[][] getMap() {
+	public Map getMap() {
 		return map;
 	}
 
@@ -41,7 +41,7 @@ public class CurrentLevel {
 
 	private void initialise() {
 		dungeonSize = 100;
-		map = new int[dungeonSize][dungeonSize];
+		map = new Map(dungeonSize);
 		player = new Player(new Position(10, 10));
 		newMap = new Dungeon(0, 0, dungeonSize, dungeonSize);
 		newMap.generateDungeon();
@@ -49,13 +49,13 @@ public class CurrentLevel {
 		printDungeon();
 	}
 
-	void printDungeon() {
+	private void printDungeon() {
 		Scanner scn = new Scanner(System.in);
 		for (int i = 0; i < dungeonSize; i++) {
 			for (int j = 0; j < dungeonSize; j++) {
 				String format = "%c ";
-				if (map[i][j] != 0) {
-					System.out.print(String.format(format, (char) (map[i][j] + 97)));
+				if (map.get(j, i) != 0) {
+					System.out.print(String.format(format, (char) (map.get(j, i) + 97)));
 				} else {
 					System.out.print(String.format(format, '.'));
 				}

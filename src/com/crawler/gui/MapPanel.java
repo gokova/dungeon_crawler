@@ -7,13 +7,14 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import com.crawler.entity.CurrentLevel;
+import com.crawler.entity.Map;
 import com.crawler.util.GlobalStatics;
 import com.crawler.util.Position;
 import com.crawler.util.Settings;
 
 public class MapPanel extends JPanel {
 
-	private int[][] map;
+	private Map map;
 	private Position playerPosition;
 	private int dungeonSize = 0;
 	private int mapSize = 0;
@@ -49,13 +50,15 @@ public class MapPanel extends JPanel {
 
 		for (int i = x; i < x + mapSize; i++) {
 			for (int j = y; j < y + mapSize; j++) {
-				Integer tempVal = map[j][i];
+				Integer tempVal = map.get(i, j);
 				if (tempVal > 0 && tempVal <= 5) {
 					graph.setPaint(Color.RED);
 				} else if (tempVal > 5 && tempVal <= 7) {
 					graph.setPaint(Color.GREEN);
-				} else if (tempVal > 7) {
+				} else if (tempVal > 7 && tempVal <= 8) {
 					graph.setPaint(Color.BLUE);
+				} else if (tempVal > 8) {
+					graph.setPaint(Color.BLACK);
 				} else {
 					graph.setPaint(Color.GRAY);
 				}

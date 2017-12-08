@@ -2,20 +2,18 @@ package com.crawler.gui;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JFrame;
 
 import com.crawler.entity.CurrentLevel;
-import com.crawler.entity.Player;
 import com.crawler.util.Settings;
 
-public class CrawlerGUI {
+public class CrawlerGUI implements PlayerActionListener {
 
 	private JFrame frmCrawler;
 	private MapPanel panelMap;
 	private MinimapPanel panelMinimap;
+	private ControllerPanel panelController;
 
 	/**
 	 * Launch application.
@@ -39,17 +37,6 @@ public class CrawlerGUI {
 	public CrawlerGUI() {
 		CurrentLevel.getInstance().generateNewLevel();
 		initialise();
-
-		Timer test = new Timer();
-		test.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				Player player = CurrentLevel.getInstance().getPlayer();
-				player.setLocation(player.getLocation().getX() + 1, player.getLocation().getY() + 1);
-				panelMap.repaint();
-				panelMinimap.repaint();
-			}
-		}, 1000, 500);
 	}
 
 	/**
@@ -69,6 +56,20 @@ public class CrawlerGUI {
 
 		panelMinimap = new MinimapPanel();
 		frmCrawler.getContentPane().add(panelMinimap);
+
+		panelController = new ControllerPanel();
+		panelController.addPlayerActionListener(this);
+		frmCrawler.getContentPane().add(panelController);
+	}
+
+	private void gameLoop() {
+		panelMap.repaint();
+		panelMinimap.repaint();
+	}
+
+	@Override
+	public void onActionTaken() {
+		gameLoop();
 	}
 
 }

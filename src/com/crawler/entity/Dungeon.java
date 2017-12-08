@@ -97,7 +97,7 @@ public class Dungeon extends Area {
 			firstCenter.setLocation(firstCenter.getX(), secondCenter.getY());
 		}
 
-		int[][] map = CurrentLevel.getInstance().getMap();
+		Map map = CurrentLevel.getInstance().getMap();
 		boolean isHorizontal = xAxisDistance >= yAxisDistance;
 		int xAxisDirection = (int) Math.signum(secondCenter.getX() - firstCenter.getX());
 		int yAxisDirection = (int) Math.signum(secondCenter.getY() - firstCenter.getY());
@@ -106,21 +106,21 @@ public class Dungeon extends Area {
 
 		if (isHorizontal) {
 			for (i = 0; (firstCenter.getX() + i) != secondCenter.getX(); i += (1 * xAxisDirection)) {
-				map[firstCenter.getY() + j][firstCenter.getX() + i] = 9;
+				map.put(firstCenter.getX() + i, firstCenter.getY() + j, 9);
 				if (Math.abs(i) == (Math.abs(firstCenter.getX() - secondCenter.getX()) / 2)) {
 					for (int k = 0; (firstCenter.getY() + k) != secondCenter.getY(); k += (1 * yAxisDirection)) {
 						j = k;
-						map[firstCenter.getY() + j][firstCenter.getX() + i] = 9;
+						map.put(firstCenter.getX() + i, firstCenter.getY() + j, 9);
 					}
 				}
 			}
 		} else {
 			for (i = 0; (firstCenter.getY() + i) != secondCenter.getY(); i += (1 * yAxisDirection)) {
-				map[firstCenter.getY() + i][firstCenter.getX() + j] = 9;
+				map.put(firstCenter.getX() + j, firstCenter.getY() + i, 9);
 				if (Math.abs(i) == (Math.abs(firstCenter.getY() - secondCenter.getY()) / 2)) {
 					for (int k = 0; (firstCenter.getX() + k) != secondCenter.getX(); k += (1 * xAxisDirection)) {
 						j = k;
-						map[firstCenter.getY() + i][firstCenter.getX() + j] = 9;
+						map.put(firstCenter.getX() + j, firstCenter.getY() + i, 9);
 					}
 				}
 			}
