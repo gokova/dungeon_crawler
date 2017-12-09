@@ -1,25 +1,18 @@
 package com.crawler.util;
 
-import java.awt.Point;
-
-public class Position {
+public class Location {
 
 	private int x;
 	private int y;
 
-	public Position() {
+	public Location() {
 		setX(0);
 		setY(0);
 	}
 
-	public Position(int x, int y) {
+	public Location(int x, int y) {
 		setX(x);
 		setY(y);
-	}
-
-	public Position(Point point) {
-		setX((int) point.getX());
-		setY((int) point.getY());
 	}
 
 	public int getX() {

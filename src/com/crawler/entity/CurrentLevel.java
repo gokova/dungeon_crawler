@@ -2,17 +2,18 @@ package com.crawler.entity;
 
 import java.util.Scanner;
 
-import com.crawler.util.Position;
+import com.crawler.util.Location;
 
 public class CurrentLevel {
 
 	private static CurrentLevel instance;
 	private Map map;
-	private Area newMap;
+	private Area dungeon;
 	private Player player;
 	private int dungeonSize;
 
 	private CurrentLevel() {
+
 	}
 
 	public static CurrentLevel getInstance() {
@@ -42,10 +43,10 @@ public class CurrentLevel {
 	private void initialise() {
 		dungeonSize = 100;
 		map = new Map(dungeonSize);
-		player = new Player(new Position(10, 10));
-		newMap = new Dungeon(0, 0, dungeonSize, dungeonSize);
-		newMap.generateDungeon();
-		newMap.fillMap();
+		player = new Player(new Location(10, 10));
+		dungeon = new Dungeon(0, 0, dungeonSize, dungeonSize);
+		dungeon.generateDungeon();
+		dungeon.fillMap();
 		printDungeon();
 	}
 
@@ -63,7 +64,7 @@ public class CurrentLevel {
 			System.out.println(" ");
 		}
 		System.out.println("Press enter to continue");
-		scn.nextLine();
+		// scn.nextLine();
 		scn.close();
 	}
 

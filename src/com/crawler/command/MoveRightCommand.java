@@ -1,25 +1,16 @@
 package com.crawler.command;
 
-import com.crawler.entity.CurrentLevel;
-import com.crawler.entity.Player;
+import com.crawler.entity.Character;
 
-public class MoveRightCommand extends Command {
+public class MoveRightCommand extends CharacterCommand {
 
-	Player player;
-
-	public MoveRightCommand(Player player) {
-		super();
-		this.player = player;
+	public MoveRightCommand(Character character) {
+		super(character);
 	}
 
 	@Override
 	public void execute() {
-		int newX = player.getLocation().getX() + 1;
-		int newY = player.getLocation().getY();
-
-		if (CurrentLevel.getInstance().getMap().canMove(newX, newY)) {
-			player.getLocation().setLocation(newX, newY);
-		}
+		character.moveRight();
 	}
 
 }

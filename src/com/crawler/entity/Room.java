@@ -2,15 +2,11 @@ package com.crawler.entity;
 
 import java.util.Random;
 
-import com.crawler.util.Position;
+import com.crawler.util.Location;
 
 public class Room extends Area {
 
 	private final int PADDING = 2;
-
-	public Room() {
-		super(0, 0, 0, 0);
-	}
 
 	public Room(int x, int y, int width, int height) {
 		super(x, y, width, height);
@@ -19,23 +15,23 @@ public class Room extends Area {
 	@Override
 	public void generateDungeon() {
 		Random rnd = new Random();
-		int x, y, width, height;
-		int tempArea = 0;
-		double tempRatio = 0;
+		int _x, _y, _width, _height;
+		int _area = 0;
+		double _ratio = 0;
 
 		do {
-			x = rnd.nextInt(getWidth() / 3);
-			y = rnd.nextInt(getHeight() / 3);
-			width = rnd.nextInt(getWidth() - x);
-			height = rnd.nextInt(getHeight() - y);
-			tempArea = (width - PADDING) * (height - PADDING);
-			tempRatio = ((double) width - PADDING) / ((double) height - PADDING);
-		} while (tempArea < 250 || tempRatio < (double) 0.3 || tempRatio > (double) 1.7);
+			_x = rnd.nextInt(getWidth() / 3);
+			_y = rnd.nextInt(getHeight() / 3);
+			_width = rnd.nextInt(getWidth() - _x) - PADDING;
+			_height = rnd.nextInt(getHeight() - _y) - PADDING;
+			_area = _width * _height;
+			_ratio = (double) _width / (double) _height;
+		} while (_area < 250 || _ratio < (double) 0.3 || _ratio > (double) 1.7);
 
-		this.setX(getX() + x + PADDING);
-		this.setY(getY() + y + PADDING);
-		this.setWidth(width - PADDING);
-		this.setHeight(height - PADDING);
+		this.setX(getX() + _x + PADDING);
+		this.setY(getY() + _y + PADDING);
+		this.setWidth(_width);
+		this.setHeight(_height);
 	}
 
 	@Override
@@ -52,8 +48,11 @@ public class Room extends Area {
 	}
 
 	@Override
-	public Position getConnectionPoint() {
-		return new Position(getX() + getWidth() / 2, getY() + getHeight() / 2);
+	public ClosestPoint getClosestPoint(int destX, int destY) {
+		int centerX = getX() + getWidth() / 2;
+		int centerY = getY() + getHeight() / 2;
+		int distance = (int) (Math.pow(centerX - destX, 2) + Math.pow(centerY - destY, 2));
+		return new ClosestPoint(distance, new Location(centerX, centerY));
 	}
 
 }

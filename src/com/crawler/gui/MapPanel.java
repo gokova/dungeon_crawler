@@ -9,23 +9,14 @@ import javax.swing.JPanel;
 import com.crawler.entity.CurrentLevel;
 import com.crawler.entity.Map;
 import com.crawler.util.GlobalStatics;
-import com.crawler.util.Position;
+import com.crawler.util.Location;
 import com.crawler.util.Settings;
 
 public class MapPanel extends JPanel {
 
-	private Map map;
-	private Position playerPosition;
-	private int dungeonSize = 0;
-	private int mapSize = 0;
-
 	private static final long serialVersionUID = 3919306614878318497L;
 
 	public MapPanel() {
-		this.map = CurrentLevel.getInstance().getMap();
-		this.playerPosition = CurrentLevel.getInstance().getPlayer().getLocation();
-		this.dungeonSize = CurrentLevel.getInstance().getDungeonSize();
-		this.mapSize = Settings.getInstance().getMapSize();
 		setBounds(0, 0, Settings.getInstance().getMapWidth(), Settings.getInstance().getMapHeight());
 		setBackground(Color.GRAY);
 		setLayout(null);
@@ -35,6 +26,11 @@ public class MapPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponents(g);
 		Graphics2D graph = (Graphics2D) g;
+
+		Map map = CurrentLevel.getInstance().getMap();
+		Location playerPosition = CurrentLevel.getInstance().getPlayer().getLocation();
+		int dungeonSize = CurrentLevel.getInstance().getDungeonSize();
+		int mapSize = Settings.getInstance().getMapSize();
 
 		/*
 		 * To ensure that grids to be drawn is not out of bounds. If player is

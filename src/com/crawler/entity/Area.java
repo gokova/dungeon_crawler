@@ -1,6 +1,6 @@
 package com.crawler.entity;
 
-import com.crawler.util.Position;
+import com.crawler.util.Location;
 
 public abstract class Area {
 
@@ -8,10 +8,6 @@ public abstract class Area {
 	private int y;
 	private int width;
 	private int height;
-
-	public Area() {
-		this(0, 0, 0, 0);
-	}
 
 	public Area(int x, int y, int width, int height) {
 		this.setX(x);
@@ -60,10 +56,35 @@ public abstract class Area {
 		return (double) width / (double) height;
 	}
 
+	public Location getCenter() {
+		int centerX = getX() + getWidth() / 2;
+		int centerY = getY() + getHeight() / 2;
+		return new Location(centerX, centerY);
+	}
+
 	public abstract void generateDungeon();
 
 	public abstract void fillMap();
 
-	public abstract Position getConnectionPoint();
+	public abstract ClosestPoint getClosestPoint(int destX, int destY);
+
+	protected class ClosestPoint {
+
+		private int distance;
+		private Location position;
+
+		public ClosestPoint(int distance, Location position) {
+			this.distance = distance;
+			this.position = position;
+		}
+
+		public int getDistance() {
+			return distance;
+		}
+
+		public Location getPosition() {
+			return position;
+		}
+	}
 
 }

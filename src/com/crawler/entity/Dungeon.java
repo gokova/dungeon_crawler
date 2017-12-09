@@ -5,15 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 import com.crawler.util.GlobalStatics;
-import com.crawler.util.Position;
+import com.crawler.util.Location;
 
 public class Dungeon extends Area {
 
 	private List<Area> subAreaList;
-
-	public Dungeon() {
-		super(0, 0, 0, 0);
-	}
 
 	public Dungeon(int x, int y, int width, int height) {
 		super(x, y, width, height);
@@ -57,9 +53,11 @@ public class Dungeon extends Area {
 		}
 
 		for (int i = 0; i < getSubAreaList().size() - 1; i++) {
-			Position firstCenter = getSubAreaList().get(i).getConnectionPoint();
-			Position secondCenter = getSubAreaList().get(i + 1).getConnectionPoint();
-			connect(firstCenter, secondCenter);
+			Location center = getSubAreaList().get(i + 1).getCenter();
+			ClosestPoint firstPoint = getSubAreaList().get(i).getClosestPoint(center.getX(), center.getY());
+			ClosestPoint secondPoint = getSubAreaList().get(i + 1).getClosestPoint(firstPoint.getPosition().getX(),
+					firstPoint.getPosition().getY());
+			connect(firstPoint.getPosition(), secondPoint.getPosition());
 		}
 	}
 
@@ -71,8 +69,17 @@ public class Dungeon extends Area {
 	}
 
 	@Override
-	public Position getConnectionPoint() {
-		return getSubAreaList().get(0).getConnectionPoint();
+	public ClosestPoint getClosestPoint(int destX, int destY) {
+		ClosestPoint minDistance = new ClosestPoint(Integer.MAX_VALUE, new Location());
+
+		for (Area area : subAreaList) {
+			ClosestPoint tempDist = area.getClosestPoint(destX, destY);
+			if (tempDist.getDistance() < minDistance.getDistance()) {
+				minDistance = tempDist;
+			}
+		}
+
+		return minDistance;
 	}
 
 	private Area createNewArea(int x, int y, int width, int height) {
@@ -87,7 +94,9 @@ public class Dungeon extends Area {
 		return result;
 	}
 
-	public void connect(Position firstCenter, Position secondCenter) {
+	public void connect(Location firstCenter, Location secondCenter) {
+		int xAxisDirection = (int) Math.signum(secondCenter.getX() - firstCenter.getX());
+		int yAxisDirection = (int) Math.signum(secondCenter.getY() - firstCenter.getY());
 		int xAxisDistance = Math.abs(secondCenter.getX() - firstCenter.getX());
 		int yAxisDistance = Math.abs(secondCenter.getY() - firstCenter.getY());
 		if (xAxisDistance <= 2) {
@@ -99,28 +108,28 @@ public class Dungeon extends Area {
 
 		Map map = CurrentLevel.getInstance().getMap();
 		boolean isHorizontal = xAxisDistance >= yAxisDistance;
-		int xAxisDirection = (int) Math.signum(secondCenter.getX() - firstCenter.getX());
-		int yAxisDirection = (int) Math.signum(secondCenter.getY() - firstCenter.getY());
 		int i = 0;
 		int j = 0;
 
 		if (isHorizontal) {
-			for (i = 0; (firstCenter.getX() + i) != secondCenter.getX(); i += (1 * xAxisDirection)) {
-				map.put(firstCenter.getX() + i, firstCenter.getY() + j, 9);
-				if (Math.abs(i) == (Math.abs(firstCenter.getX() - secondCenter.getX()) / 2)) {
-					for (int k = 0; (firstCenter.getY() + k) != secondCenter.getY(); k += (1 * yAxisDirection)) {
+			j = firstCenter.getY();
+			for (i = firstCenter.getX(); i != secondCenter.getX(); i += (1 * xAxisDirection)) {
+				map.put(i, j, 9);
+				if (Math.abs(i - firstCenter.getX()) == (Math.abs(firstCenter.getX() - secondCenter.getX()) / 2)) {
+					for (int k = firstCenter.getY(); k != secondCenter.getY(); k += (1 * yAxisDirection)) {
 						j = k;
-						map.put(firstCenter.getX() + i, firstCenter.getY() + j, 9);
+						map.put(i, j, 9);
 					}
 				}
 			}
 		} else {
-			for (i = 0; (firstCenter.getY() + i) != secondCenter.getY(); i += (1 * yAxisDirection)) {
-				map.put(firstCenter.getX() + j, firstCenter.getY() + i, 9);
-				if (Math.abs(i) == (Math.abs(firstCenter.getY() - secondCenter.getY()) / 2)) {
-					for (int k = 0; (firstCenter.getX() + k) != secondCenter.getX(); k += (1 * xAxisDirection)) {
+			j = firstCenter.getX();
+			for (i = firstCenter.getY(); i != secondCenter.getY(); i += (1 * yAxisDirection)) {
+				map.put(j, i, 9);
+				if (Math.abs(i - firstCenter.getY()) == (Math.abs(firstCenter.getY() - secondCenter.getY()) / 2)) {
+					for (int k = firstCenter.getX(); k != secondCenter.getX(); k += (1 * xAxisDirection)) {
 						j = k;
-						map.put(firstCenter.getX() + j, firstCenter.getY() + i, 9);
+						map.put(j, i, 9);
 					}
 				}
 			}

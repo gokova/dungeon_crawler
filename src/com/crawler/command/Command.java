@@ -1,6 +1,6 @@
 package com.crawler.command;
 
-public abstract class Command {
+public interface Command {
 
 	public abstract void execute();
 

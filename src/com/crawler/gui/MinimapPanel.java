@@ -9,21 +9,16 @@ import javax.swing.JPanel;
 
 import com.crawler.entity.CurrentLevel;
 import com.crawler.entity.Map;
-import com.crawler.util.Position;
+import com.crawler.util.Location;
 import com.crawler.util.Settings;
 
 public class MinimapPanel extends JPanel {
-
-	private Map map;
-	private Position playerPosition;
 
 	private static final int MINIMAP_WIDTH = 200;
 	private static final int MINIMAP_HEIGHT = 200;
 	private static final long serialVersionUID = 7531216945650442732L;
 
 	public MinimapPanel() {
-		this.map = CurrentLevel.getInstance().getMap();
-		this.playerPosition = CurrentLevel.getInstance().getPlayer().getLocation();
 		setBounds(Settings.getInstance().getMapWidth(), 0, MINIMAP_WIDTH + 2, MINIMAP_HEIGHT + 2);
 		setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		setBackground(Color.GRAY);
@@ -34,6 +29,9 @@ public class MinimapPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D graph = (Graphics2D) g;
+
+		Map map = CurrentLevel.getInstance().getMap();
+		Location playerPosition = CurrentLevel.getInstance().getPlayer().getLocation();
 
 		int minCenter = 16;
 		int dungeonSize = CurrentLevel.getInstance().getDungeonSize();

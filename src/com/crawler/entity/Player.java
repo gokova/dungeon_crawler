@@ -1,28 +1,11 @@
 package com.crawler.entity;
 
-import com.crawler.util.Position;
+import com.crawler.util.Location;
 
-public class Player {
+public class Player extends Character {
 
-	private Position location;
-
-	public Player() {
-		this.location = new Position();
+	public Player(Location location) {
+		super(location);
 	}
 
-	public Player(Position location) {
-		this.location = location;
-	}
-
-	public Position getLocation() {
-		return location;
-	}
-
-	public void setLocation(Position location) {
-		this.location = location;
-	}
-
-	public void setLocation(int x, int y) {
-		this.location.setLocation(x, y);
-	}
 }
