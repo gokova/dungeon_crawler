@@ -1,5 +1,7 @@
 package com.crawler.entity;
 
+import java.awt.image.BufferedImage;
+
 import com.crawler.util.Location;
 
 public abstract class Character {
@@ -47,5 +49,7 @@ public abstract class Character {
 			getLocation().setLocation(newX, newY);
 		}
 	}
+
+	public abstract BufferedImage getImage();
 
 }

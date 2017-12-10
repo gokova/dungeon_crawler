@@ -36,13 +36,11 @@ public class Room extends Area {
 
 	@Override
 	public void fillMap() {
-		Random rnd = new Random();
 		Map map = CurrentLevel.getInstance().getMap();
 
 		for (int j = getX(); j < getX() + getWidth(); j++) {
 			for (int k = getY(); k < getY() + getHeight(); k++) {
-				int num = rnd.nextInt(8) + 1;
-				map.put(j, k, num);
+				map.put(j, k, new RoomFloor());
 			}
 		}
 	}

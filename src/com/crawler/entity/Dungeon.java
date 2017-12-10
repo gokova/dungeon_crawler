@@ -114,22 +114,22 @@ public class Dungeon extends Area {
 		if (isHorizontal) {
 			j = firstCenter.getY();
 			for (i = firstCenter.getX(); i != secondCenter.getX(); i += (1 * xAxisDirection)) {
-				map.put(i, j, 9);
+				map.put(i, j, new Corridor());
 				if (Math.abs(i - firstCenter.getX()) == (Math.abs(firstCenter.getX() - secondCenter.getX()) / 2)) {
 					for (int k = firstCenter.getY(); k != secondCenter.getY(); k += (1 * yAxisDirection)) {
 						j = k;
-						map.put(i, j, 9);
+						map.put(i, j, new Corridor());
 					}
 				}
 			}
 		} else {
 			j = firstCenter.getX();
 			for (i = firstCenter.getY(); i != secondCenter.getY(); i += (1 * yAxisDirection)) {
-				map.put(j, i, 9);
+				map.put(j, i, new Corridor());
 				if (Math.abs(i - firstCenter.getY()) == (Math.abs(firstCenter.getY() - secondCenter.getY()) / 2)) {
 					for (int k = firstCenter.getX(); k != secondCenter.getX(); k += (1 * xAxisDirection)) {
 						j = k;
-						map.put(j, i, 9);
+						map.put(j, i, new Corridor());
 					}
 				}
 			}

@@ -45,7 +45,7 @@ public class CrawlerGUI implements PlayerActionListener {
 	private void initialise() {
 		frmCrawler = new JFrame();
 		frmCrawler.setResizable(false);
-		frmCrawler.setTitle("Battleship");
+		frmCrawler.setTitle("Dungeon Crawler");
 		frmCrawler.setBounds(50, 50, Settings.getInstance().getScreenWidth(), Settings.getInstance().getScreenHeight());
 		frmCrawler.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmCrawler.getContentPane().setLayout(null);
@@ -62,14 +62,11 @@ public class CrawlerGUI implements PlayerActionListener {
 		frmCrawler.getContentPane().add(panelController);
 	}
 
-	private void gameLoop() {
-		panelMap.repaint();
-		panelMinimap.repaint();
-	}
-
 	@Override
 	public void onActionTaken() {
-		gameLoop();
+		CurrentLevel.getInstance().gameLoop();
+		panelMap.repaint();
+		panelMinimap.repaint();
 	}
 
 }

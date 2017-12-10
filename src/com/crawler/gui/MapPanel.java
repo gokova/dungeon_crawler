@@ -7,9 +7,11 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import com.crawler.entity.CurrentLevel;
+import com.crawler.entity.EmptyTile;
 import com.crawler.entity.Map;
+import com.crawler.entity.MapTile;
+import com.crawler.entity.Player;
 import com.crawler.util.GlobalStatics;
-import com.crawler.util.Location;
 import com.crawler.util.Settings;
 
 public class MapPanel extends JPanel {
@@ -28,7 +30,7 @@ public class MapPanel extends JPanel {
 		Graphics2D graph = (Graphics2D) g;
 
 		Map map = CurrentLevel.getInstance().getMap();
-		Location playerPosition = CurrentLevel.getInstance().getPlayer().getLocation();
+		Player player = CurrentLevel.getInstance().getPlayer();
 		int dungeonSize = CurrentLevel.getInstance().getDungeonSize();
 		int mapSize = Settings.getInstance().getMapSize();
 
@@ -41,30 +43,23 @@ public class MapPanel extends JPanel {
 		 */
 		int minCenter = 16;
 		int maxCenter = (dungeonSize - (mapSize - minCenter));
-		int x = Math.max(Math.min(playerPosition.getX(), maxCenter), minCenter) - minCenter;
-		int y = Math.max(Math.min(playerPosition.getY(), maxCenter), minCenter) - minCenter;
+		int x = Math.max(Math.min(player.getLocation().getX(), maxCenter), minCenter) - minCenter;
+		int y = Math.max(Math.min(player.getLocation().getY(), maxCenter), minCenter) - minCenter;
 
 		for (int i = x; i < x + mapSize; i++) {
 			for (int j = y; j < y + mapSize; j++) {
-				Integer tempVal = map.get(i, j);
-				if (tempVal > 0 && tempVal <= 5) {
-					graph.setPaint(Color.RED);
-				} else if (tempVal > 5 && tempVal <= 7) {
-					graph.setPaint(Color.GREEN);
-				} else if (tempVal > 7 && tempVal <= 8) {
-					graph.setPaint(Color.BLUE);
-				} else if (tempVal > 8) {
-					graph.setPaint(Color.BLACK);
-				} else {
-					graph.setPaint(Color.GRAY);
-				}
-				graph.fillRect((i - x) * GlobalStatics.GRID_SIZE, (j - y) * GlobalStatics.GRID_SIZE,
-						GlobalStatics.GRID_SIZE, GlobalStatics.GRID_SIZE);
+				MapTile tile = map.get(i, j);
+				int dx1 = (i - x) * GlobalStatics.GRID_SIZE;
+				int dy1 = (j - y) * GlobalStatics.GRID_SIZE;
 
-				if (playerPosition.getX() == i && playerPosition.getY() == j) {
-					graph.setPaint(Color.WHITE);
-					graph.fillOval(((i - x) * GlobalStatics.GRID_SIZE) + 6, ((j - y) * GlobalStatics.GRID_SIZE) + 6, 20,
-							20);
+				if (tile == null) {
+					tile = new EmptyTile();
+					map.put(i, j, tile);
+				}
+				graph.drawImage(tile.getImage(), dx1, dy1, null);
+
+				if (player.getLocation().getX() == i && player.getLocation().getY() == j) {
+					graph.drawImage(player.getImage(), dx1, dy1, null);
 				}
 			}
 		}
