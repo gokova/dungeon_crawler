@@ -4,7 +4,7 @@ import java.awt.Color;
 
 public class EmptyTile extends MapTile {
 
-	private final static int SPRITE_NO = 279;
+	private static final int SPRITE_NO = 279;
 
 	public EmptyTile() {
 		super(SPRITE_NO, true);

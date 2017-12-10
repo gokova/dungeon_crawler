@@ -3,13 +3,16 @@ package com.crawler.entity;
 import java.awt.image.BufferedImage;
 
 import com.crawler.util.Location;
+import com.crawler.util.SpriteHelper;
 
 public abstract class Character {
 
 	private Location location;
+	private int spriteNo;
 
-	public Character(Location location) {
+	public Character(Location location, int spriteNo) {
 		this.location = location;
+		this.spriteNo = spriteNo;
 	}
 
 	public Location getLocation() {
@@ -50,6 +53,8 @@ public abstract class Character {
 		}
 	}
 
-	public abstract BufferedImage getImage();
+	public BufferedImage getImage() {
+		return SpriteHelper.getInstance().getImage(spriteNo);
+	}
 
 }

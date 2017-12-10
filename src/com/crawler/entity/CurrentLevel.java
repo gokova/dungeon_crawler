@@ -93,6 +93,9 @@ public class CurrentLevel {
 		if (map.get(player.getLocation().getX(), player.getLocation().getY()) instanceof ExitTile) {
 			generateNewLevel();
 		}
+		for (Enemy enemy : enemyList) {
+			enemy.update();
+		}
 	}
 
 	private void placeEntrance() {

@@ -1,22 +1,36 @@
 package com.crawler.entity;
 
-import java.awt.image.BufferedImage;
-
+import com.crawler.state.State;
+import com.crawler.state.WanderState;
 import com.crawler.util.Location;
-import com.crawler.util.SpriteHelper;
 
 public abstract class Enemy extends Character {
 
-	private int spriteNo;
+	private State currentState;
+	private int senseDistance;
 
 	public Enemy(Location location, int spriteNo) {
-		super(location);
-		this.spriteNo = spriteNo;
+		super(location, spriteNo);
+		this.currentState = new WanderState(this);
+		this.senseDistance = 5;
 	}
 
-	@Override
-	public BufferedImage getImage() {
-		return SpriteHelper.getInstance().getImage(spriteNo);
+	public Enemy(Location location, int spriteNo, int senseDistance) {
+		super(location, spriteNo);
+		this.currentState = new WanderState(this);
+		this.senseDistance = senseDistance;
+	}
+
+	public void setCurrentState(State currentState) {
+		this.currentState = currentState;
+	}
+
+	public int getSenseDistance() {
+		return senseDistance;
+	}
+
+	public void update() {
+		currentState.update();
 	}
 
 }

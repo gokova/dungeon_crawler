@@ -5,7 +5,7 @@ import java.util.Random;
 
 public class RoomFloor extends MapTile {
 
-	private final static int SPRITE_NO = 307;
+	private static final int SPRITE_NO = 307;
 
 	public RoomFloor() {
 		super(generateTileNo());
