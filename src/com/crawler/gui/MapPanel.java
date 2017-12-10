@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import com.crawler.entity.CurrentLevel;
+import com.crawler.entity.Enemy;
 import com.crawler.entity.Player;
 import com.crawler.map.EmptyTile;
 import com.crawler.map.Map;
@@ -63,6 +64,11 @@ public class MapPanel extends JPanel {
 
 				if (player.getLocation().getX() == i && player.getLocation().getY() == j) {
 					graph.drawImage(player.getImage(), dx1, dy1, null);
+				}
+				for (Enemy enemy : CurrentLevel.getInstance().getEnemyList()) {
+					if (enemy.getLocation().getX() == i && enemy.getLocation().getY() == j) {
+						graph.drawImage(enemy.getImage(), dx1, dy1, null);
+					}
 				}
 			}
 		}

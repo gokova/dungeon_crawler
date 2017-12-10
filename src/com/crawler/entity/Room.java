@@ -4,11 +4,12 @@ import java.util.Random;
 
 import com.crawler.map.EntranceTile;
 import com.crawler.map.ExitTile;
-import com.crawler.map.Map;
 import com.crawler.map.RoomFloor;
 import com.crawler.util.Location;
 
 public class Room extends Area {
+
+	private CurrentLevel level;
 
 	private final int PADDING = 2;
 
@@ -41,26 +42,16 @@ public class Room extends Area {
 	@Override
 	public void fillMap() {
 		Random rnd = new Random();
-		CurrentLevel level = CurrentLevel.getInstance();
-		Map map = level.getMap();
+		level = CurrentLevel.getInstance();
 
-		for (int j = getX(); j < getX() + getWidth(); j++) {
-			for (int k = getY(); k < getY() + getHeight(); k++) {
-				map.put(j, k, new RoomFloor());
-			}
-		}
+		fillFloor();
 
 		if (!level.getIsEntrancePlaced() && rnd.nextInt(100) < 20) {
-			int x = getX() + rnd.nextInt(getWidth() - 2) + 1;
-			int y = getY() + rnd.nextInt(getHeight() - 2) + 1;
-			map.put(x, y, new EntranceTile(map.get(x, y)));
-			level.getPlayer().setLocation(x, y);
-			level.setIsEntrancePlaced(true);
+			putEntrance(rnd);
 		} else if (!level.getIsExitPlaced() && rnd.nextInt(100) < 20) {
-			int x = getX() + rnd.nextInt(getWidth() - 2) + 1;
-			int y = getY() + rnd.nextInt(getHeight() - 2) + 1;
-			map.put(x, y, new ExitTile(map.get(x, y)));
-			level.setIsExitPlaced(true);
+			putExit(rnd);
+		} else {
+			putEnemies(rnd);
 		}
 	}
 
@@ -70,6 +61,39 @@ public class Room extends Area {
 		int centerY = getY() + getHeight() / 2;
 		int distance = (int) (Math.pow(centerX - destX, 2) + Math.pow(centerY - destY, 2));
 		return new ClosestPoint(distance, new Location(centerX, centerY));
+	}
+
+	private void fillFloor() {
+		for (int j = getX(); j < getX() + getWidth(); j++) {
+			for (int k = getY(); k < getY() + getHeight(); k++) {
+				level.getMap().put(j, k, new RoomFloor());
+			}
+		}
+	}
+
+	private void putEntrance(Random rnd) {
+		int x = getX() + rnd.nextInt(getWidth() - 2) + 1;
+		int y = getY() + rnd.nextInt(getHeight() - 2) + 1;
+		level.getMap().put(x, y, new EntranceTile(level.getMap().get(x, y)));
+		level.getPlayer().setLocation(x, y);
+		level.setIsEntrancePlaced(true);
+	}
+
+	private void putExit(Random rnd) {
+		int x = getX() + rnd.nextInt(getWidth() - 2) + 1;
+		int y = getY() + rnd.nextInt(getHeight() - 2) + 1;
+		level.getMap().put(x, y, new ExitTile(level.getMap().get(x, y)));
+		level.setIsExitPlaced(true);
+	}
+
+	private void putEnemies(Random rnd) {
+		EnemyFactory factory = new EnemyFactory();
+		int enemyCount = rnd.nextInt(2) + 1;
+		for (int i = 0; i < enemyCount; i++) {
+			int x = getX() + rnd.nextInt(getWidth() - 2) + 1;
+			int y = getY() + rnd.nextInt(getHeight() - 2) + 1;
+			level.addEnemy(factory.createEnemy(new Location(x, y)));
+		}
 	}
 
 }

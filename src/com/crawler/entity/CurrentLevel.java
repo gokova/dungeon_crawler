@@ -1,5 +1,7 @@
 package com.crawler.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.crawler.map.EntranceTile;
@@ -16,6 +18,7 @@ public class CurrentLevel {
 	private int dungeonSize;
 	private boolean isEntrancePlaced;
 	private boolean isExitPlaced;
+	private List<Enemy> enemyList;
 
 	private CurrentLevel() {
 		player = new Player(new Location(10, 10));
@@ -61,10 +64,19 @@ public class CurrentLevel {
 		this.isExitPlaced = isExitPlaced;
 	}
 
+	public List<Enemy> getEnemyList() {
+		return enemyList;
+	}
+
+	public void addEnemy(Enemy newEnemy) {
+		enemyList.add(newEnemy);
+	}
+
 	private void initialise() {
 		isEntrancePlaced = false;
 		isExitPlaced = false;
 		dungeonSize = 100;
+		enemyList = new ArrayList<>();
 		map = new Map(dungeonSize);
 		dungeon = new Dungeon(0, 0, dungeonSize, dungeonSize);
 		dungeon.generateDungeon();

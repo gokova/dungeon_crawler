@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import com.crawler.entity.CurrentLevel;
+import com.crawler.entity.Enemy;
 import com.crawler.map.Corridor;
 import com.crawler.map.EntranceTile;
 import com.crawler.map.ExitTile;
@@ -64,6 +65,11 @@ public class MinimapPanel extends JPanel {
 					graph.setPaint(Color.BLACK);
 				} else {
 					graph.setPaint(empty);
+				}
+				for (Enemy enemy : CurrentLevel.getInstance().getEnemyList()) {
+					if (enemy.getLocation().getX() == i / 2 && enemy.getLocation().getY() == j / 2) {
+						graph.setPaint(Color.RED);
+					}
 				}
 				graph.drawRect(i, j, 1, 1);
 			}
