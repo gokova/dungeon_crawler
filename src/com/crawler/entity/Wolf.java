@@ -7,7 +7,7 @@ public class Wolf extends Enemy {
 	private static final int SPRITE_NO = 2255;
 
 	public Wolf(Location location) {
-		super(location, SPRITE_NO);
+		super(location, SPRITE_NO, 10);
 	}
 
 }
