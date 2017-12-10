@@ -1,5 +1,6 @@
 package com.crawler.map;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import com.crawler.util.SpriteHelper;
@@ -26,5 +27,7 @@ public abstract class MapTile {
 	public boolean getIsSolid() {
 		return isSolid;
 	}
+
+	public abstract Color getMinimapColor();
 
 }

@@ -1,5 +1,6 @@
 package com.crawler.map;
 
+import java.awt.Color;
 import java.util.Random;
 
 public class RoomFloor extends MapTile {
@@ -22,6 +23,11 @@ public class RoomFloor extends MapTile {
 			result = 3;
 		}
 		return result + SPRITE_NO;
+	}
+
+	@Override
+	public Color getMinimapColor() {
+		return new Color(0.4f, 0.2f, 0f);
 	}
 
 }
