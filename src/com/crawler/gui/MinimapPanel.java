@@ -7,11 +7,13 @@ import java.awt.Graphics2D;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
-import com.crawler.entity.Corridor;
 import com.crawler.entity.CurrentLevel;
-import com.crawler.entity.Map;
-import com.crawler.entity.MapTile;
-import com.crawler.entity.RoomFloor;
+import com.crawler.map.Corridor;
+import com.crawler.map.EntranceTile;
+import com.crawler.map.ExitTile;
+import com.crawler.map.Map;
+import com.crawler.map.MapTile;
+import com.crawler.map.RoomFloor;
 import com.crawler.util.Location;
 import com.crawler.util.Settings;
 
@@ -54,6 +56,8 @@ public class MinimapPanel extends JPanel {
 						|| (i / 2.0f == x - 16 || i / 2.0f == x + 14) && (j / 2.0f > y - 16 && j / 2.0f < y + 14)) {
 					// Boundary of visible map
 					graph.setPaint(Color.WHITE);
+				} else if (tile instanceof EntranceTile || tile instanceof ExitTile) {
+					graph.setPaint(Color.BLUE);
 				} else if (tile instanceof RoomFloor) {
 					graph.setPaint(room);
 				} else if (tile instanceof Corridor) {

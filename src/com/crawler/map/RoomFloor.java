@@ -1,4 +1,4 @@
-package com.crawler.entity;
+package com.crawler.map;
 
 import java.util.Random;
 

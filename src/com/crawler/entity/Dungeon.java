@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.crawler.map.Corridor;
+import com.crawler.map.Map;
 import com.crawler.util.GlobalStatics;
 import com.crawler.util.Location;
 

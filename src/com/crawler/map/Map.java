@@ -1,4 +1,4 @@
-package com.crawler.entity;
+package com.crawler.map;
 
 public class Map {
 
@@ -18,7 +18,7 @@ public class Map {
 
 	public boolean canMove(int x, int y) {
 		boolean result = false;
-		if (map[y][x] != null && !(map[y][x] instanceof EmptyTile)) {
+		if (map[y][x] != null && !map[y][x].getIsSolid()) {
 			result = true;
 		}
 		return result;

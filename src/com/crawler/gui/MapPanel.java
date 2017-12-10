@@ -7,10 +7,11 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import com.crawler.entity.CurrentLevel;
-import com.crawler.entity.EmptyTile;
-import com.crawler.entity.Map;
-import com.crawler.entity.MapTile;
 import com.crawler.entity.Player;
+import com.crawler.map.EmptyTile;
+import com.crawler.map.Map;
+import com.crawler.map.MapTile;
+import com.crawler.map.TileWithBackground;
 import com.crawler.util.GlobalStatics;
 import com.crawler.util.Settings;
 
@@ -55,6 +56,8 @@ public class MapPanel extends JPanel {
 				if (tile == null) {
 					tile = new EmptyTile();
 					map.put(i, j, tile);
+				} else if (tile instanceof TileWithBackground) {
+					graph.drawImage(((TileWithBackground) tile).getBackground().getImage(), dx1, dy1, null);
 				}
 				graph.drawImage(tile.getImage(), dx1, dy1, null);
 

@@ -2,6 +2,10 @@ package com.crawler.entity;
 
 import java.util.Random;
 
+import com.crawler.map.EntranceTile;
+import com.crawler.map.ExitTile;
+import com.crawler.map.Map;
+import com.crawler.map.RoomFloor;
 import com.crawler.util.Location;
 
 public class Room extends Area {
@@ -36,12 +40,27 @@ public class Room extends Area {
 
 	@Override
 	public void fillMap() {
-		Map map = CurrentLevel.getInstance().getMap();
+		Random rnd = new Random();
+		CurrentLevel level = CurrentLevel.getInstance();
+		Map map = level.getMap();
 
 		for (int j = getX(); j < getX() + getWidth(); j++) {
 			for (int k = getY(); k < getY() + getHeight(); k++) {
 				map.put(j, k, new RoomFloor());
 			}
+		}
+
+		if (!level.getIsEntrancePlaced() && rnd.nextInt(100) < 20) {
+			int x = getX() + rnd.nextInt(getWidth() - 2) + 1;
+			int y = getY() + rnd.nextInt(getHeight() - 2) + 1;
+			map.put(x, y, new EntranceTile(map.get(x, y)));
+			level.getPlayer().setLocation(x, y);
+			level.setIsEntrancePlaced(true);
+		} else if (!level.getIsExitPlaced() && rnd.nextInt(100) < 20) {
+			int x = getX() + rnd.nextInt(getWidth() - 2) + 1;
+			int y = getY() + rnd.nextInt(getHeight() - 2) + 1;
+			map.put(x, y, new ExitTile(map.get(x, y)));
+			level.setIsExitPlaced(true);
 		}
 	}
 
